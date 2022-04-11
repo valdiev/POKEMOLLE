@@ -1,5 +1,6 @@
 import { ennemolles } from "./Ennemolle.js";
 import choosePoke from "./Home.js";
+import winExp from "./PokeStats/WinExp.js";
 
 let map = document.querySelector('.screen');
 let round = 0;
@@ -157,21 +158,5 @@ export default function main(pokemolleChosen) {
         setTimeout(() => {
             ennAttack(pokemolle, ennemolle)
         }, 600);
-    }
-
-    function winExp(poke, enn) {
-        poke.exp += enn.exp;
-        poke.setExp = poke.exp;
-
-        if(poke.exp > poke.expToLvlUp) {
-            let expSupp = poke.exp - poke.expToLvlUp;
-            poke.exp = 0;
-            poke.lvlUp = poke.exp + expSupp;
-            console.log(poke.exp);
-
-            if(poke.exp > poke.expToLvlUp) {
-                winExp(poke, enn);
-            } else return;
-        }
     }
 }
