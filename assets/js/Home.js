@@ -2,7 +2,7 @@ import { carapuce } from "./Pokemolle.js";
 import { bulbizar } from "./Pokemolle.js";
 import { salameche } from "./Pokemolle.js";
 
-import main from "./Main.js";
+import main from "./main.js";
 
 export default function choosePoke() {
 

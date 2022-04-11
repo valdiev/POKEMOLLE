@@ -116,7 +116,7 @@ export default function main(pokemolleChosen) {
 
     function molleSoin(molle) {
         soin.disabled = false;
-        molle.vie += molle.soin;
+        molle.vie += molle.soin; 
 
         // if(molle.vie == molle.maxVie) {
         //     soin.disabled = true;
