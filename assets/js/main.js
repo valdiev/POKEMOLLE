@@ -1,6 +1,7 @@
 import { ennemolles } from "./Ennemolle.js";
 import choosePoke from "./Home.js";
 import winExp from "./PokeStats/WinExp.js";
+import ennAttack from "./PokeStats/EnnAttack.js";
 
 let map = document.querySelector('.screen');
 let round = 0;
@@ -116,26 +117,6 @@ export default function main(pokemolleChosen) {
                 </section>
             `;
             };
-        }
-    }
-
-    function ennAttack(poke, enn) {
-        poke.vie = poke.vie - enn.attaque;
-        pokeLifeBar.value = poke.vie;
-        pokeLifePoint.innerHTML = poke.vie;
-
-        if (pokeLifeBar.value === 0) {
-            map.innerHTML = `
-                <section class="gameOver">
-                    <div class="gameOver__image">
-                        <img src="../assets/img/logo.png" alt="">
-                    </div>
-                    <h1>Tu as perdu...</h1>
-                    <h2>Tu es arrivé(e) à la manche n°${round} </h2>
-                    <h2>Tu as perdu contre ${ennemolle.nom} niveau ${ennemolle.level}</h2>
-                    <button onClick="window.location.reload();">Je veux ma revanche !</button>
-                </section>
-            `;
         }
     }
 
