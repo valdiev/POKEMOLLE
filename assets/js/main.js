@@ -8,14 +8,12 @@ let round = 0;
 
 choosePoke();
 
-
 export default function main(pokemolleChosen) {
     let pokemolle = pokemolleChosen;
     console.log(ennemolles);
     let ennemolle = ennemolles[0];
 
     round++;
-
 
     map.innerHTML = `
         <section class="battle">
@@ -91,15 +89,11 @@ export default function main(pokemolleChosen) {
         enn.vie = enn.vie - poke.attaque;
         ennLifeBar.value = enn.vie;
 
-        
-
         if (ennLifeBar.value == 0) {
             document.querySelector(".ennemolle__photo").classList.add("ko");
             ennemolles.splice(0, 1);
 
             winExp(poke, enn);
-
-
 
             if (ennemolles.length !== 0) {
                 setTimeout(() => {
