@@ -77,7 +77,9 @@ export default function main(pokemolleChosen) {
     attack.addEventListener('click', () => {
         pokeAttack(ennemolle, pokemolle);
         setTimeout(() => {
-            ennAttack(pokemolle, ennemolle)
+            if(ennemolles.length !== 0) {
+                ennAttack(pokemolle, ennemolle)
+            }
         }, 600);
     });
 
@@ -115,23 +117,20 @@ export default function main(pokemolleChosen) {
     }
 
     function molleSoin(molle) {
-        soin.disabled = false;
-        molle.vie += molle.soin; 
+        
+        if(molle.vie + molle.soin > molle.maxVie) {
+            console.log("La potion ne fait plus d'effet !");
+        } else {
+            molle.vie += molle.soin; 
+            setTimeout(() => {
+                if(ennemolles.length !== 0) {
+                    ennAttack(pokemolle, ennemolle)
+                }
+            }, 600);
+        }
 
-        // if(molle.vie == molle.maxVie) {
-        //     soin.disabled = true;
-        // } else {
-        //     soin.disabled = false;
-        //     if(molle.vie > molle.maxVie) {
-        //         molle.vie == molle.maxVie
-        //         soin.disabled = true;
-        //     }
-        // }
         pokeLifeBar.value = molle.vie;
         pokeLifePoint.innerHTML = molle.vie;
 
-        setTimeout(() => {
-            ennAttack(pokemolle, ennemolle)
-        }, 600);
     }
 }
