@@ -6,7 +6,6 @@ export default function winExp(poke, enn) {
         let expSupp = poke.exp - poke.expToLvlUp;
         poke.exp = 0;
         poke.lvlUp = poke.exp + expSupp;
-        console.log(poke.exp);
 
         if(poke.exp > poke.expToLvlUp) {
             winExp(poke, enn);

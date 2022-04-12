@@ -6,7 +6,7 @@ export default function ennAttack(poke, enn) {
     window.alert(`${enn.nom} ennemi attaque !!`);
 
     if(enn.type == "Eau" && poke.type == "Feu" || enn.type == "Feu" && poke.type == "Plante" || enn.type == "Plante" && poke.type == "Eau" || enn.type == "Eau" && poke.type == "Roche") {
-        enn.attaque = Math.round(enn.attaque * 2);
+        enn.attaque = enn.cc;
         window.alert(`Très efficace sur ${poke.nom} allié !`);
     } else if(enn.type == "Normal" || poke.type=="Normal" || enn.type == poke.type) {
         enn.attaque;
@@ -15,7 +15,7 @@ export default function ennAttack(poke, enn) {
         window.alert(`Cela n'affecte pas ${poke.nom} allié...`)
     }
     else {
-        enn.attaque = Math.round(enn.attaque / 2);
+        enn.attaque = enn.ec;
         window.alert(`Ce n'est pas efficace sur ${poke.nom} allié !`);
     }
 

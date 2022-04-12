@@ -10,7 +10,6 @@ choosePoke();
 
 export default function main(pokemolleChosen) {
     let pokemolle = pokemolleChosen;
-    console.log(ennemolles);
     let ennemolle = ennemolles[0];
 
     round++;
@@ -77,7 +76,6 @@ export default function main(pokemolleChosen) {
         pokeAttack(ennemolle, pokemolle);
         setTimeout(() => {
             if(ennemolles.length !== 0 && ennemolle.vie > 0) {
-                console.log(ennemolle.vie);
                 ennAttack(pokemolle, ennemolle)
             }
         }, 600);
@@ -92,7 +90,7 @@ export default function main(pokemolleChosen) {
         window.alert(`${poke.nom} attaque !!`);
 
         if(poke.type == "Eau" && enn.type == "Feu" || poke.type == "Feu" && enn.type == "Plante" || poke.type == "Plante" && enn.type == "Eau" || poke.type == "Eau" && enn.type == "Roche") {
-            poke.attaque = Math.round(poke.attaque * 2);
+            poke.attaque = poke.cc;
             window.alert(`Très efficace sur ${enn.nom} ennemi !`);
         } else if(poke.type == "Normal" || enn.type == "Normal" || poke.type == enn.type) {
             poke.attaque;
@@ -101,7 +99,7 @@ export default function main(pokemolleChosen) {
             window.alert(`Cela n'affecte pas ${enn.nom} ennemi...`)
         }
         else {
-            poke.attaque = Math.round(poke.attaque / 2);
+            poke.attaque = poke.ec;
             window.alert(`Ce n'est pas efficace sur ${enn.nom} ennemi !`);
         }
 
@@ -111,6 +109,7 @@ export default function main(pokemolleChosen) {
         if (ennLifeBar.value == 0) {
             document.querySelector(".ennemolle__photo").classList.add("ko");
             ennemolles.splice(0, 1);
+            poke.attaque = poke.attaqueIni;
 
             winExp(poke, enn);
 
