@@ -1,5 +1,6 @@
 class Pokemolle {
-    constructor(image, nom,type,attaque,vie, maxVie, level, exp, expToLvlUp, soin) {
+    constructor(home, image, nom,type,attaque,vie, maxVie, level, exp, expToLvlUp, soin) {
+        this.home = home;
         this.image = image;
         this.nom = nom;
         this.type = type;
@@ -26,7 +27,7 @@ class Pokemolle {
     }
 }
 
-export let carapuce = new Pokemolle("carapuce.gif", "Carapuce", "Eau", 5, 20, 20, 6, 0, 20, 5);
-export let bulbizar = new Pokemolle("bulbizar.webp", "Bulbizar", "Plante", 5, 20, 20, 6, 0, 20, 5);
-export let salameche = new Pokemolle("salameche.webp", "Salameche", "Feu", 5, 20, 20, 6, 0, 20, 5);
+export let carapuce = new Pokemolle("carapuce-front.webp", "carapuce.gif", "Carapuce", "Eau", 5, 20, 20, 6, 0, 20, 5);
+export let bulbizar = new Pokemolle("bulbizar-front.webp", "bulbizar.webp", "Bulbizar", "Plante", 5, 20, 20, 6, 0, 20, 5);
+export let salameche = new Pokemolle("salameche-front.webp", "salameche.webp", "Salameche", "Feu", 5, 20, 20, 6, 0, 20, 5);
 
