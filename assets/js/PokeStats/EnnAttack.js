@@ -5,7 +5,7 @@ export default function ennAttack(poke, enn) {
 
     window.alert(`${enn.nom} ennemi attaque !!`);
 
-    if(enn.type == "Eau" && poke.type == "Feu" || enn.type == "Plante" && poke.type == "Eau" || enn.type == "Eau" && poke.type == "Roche") {
+    if(enn.type == "Eau" && poke.type == "Feu" || enn.type == "Feu" && poke.type == "Plante" || enn.type == "Plante" && poke.type == "Eau" || enn.type == "Eau" && poke.type == "Roche") {
         enn.attaque = Math.round(enn.attaque * 2);
         window.alert(`Très efficace sur ${poke.nom} allié !`);
     } else if(enn.type == "Normal" || poke.type=="Normal" || enn.type == poke.type) {

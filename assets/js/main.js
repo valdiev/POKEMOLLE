@@ -91,7 +91,7 @@ export default function main(pokemolleChosen) {
 
         window.alert(`${poke.nom} attaque !!`);
 
-        if(poke.type == "Eau" && enn.type == "Feu" || poke.type == "Plante" && enn.type == "Eau" || poke.type == "Eau" && enn.type == "Roche") {
+        if(poke.type == "Eau" && enn.type == "Feu" || poke.type == "Feu" && enn.type == "Plante" || poke.type == "Plante" && enn.type == "Eau" || poke.type == "Eau" && enn.type == "Roche") {
             poke.attaque = Math.round(poke.attaque * 2);
             window.alert(`Très efficace sur ${enn.nom} ennemi !`);
         } else if(poke.type == "Normal" || enn.type == "Normal" || poke.type == enn.type) {
