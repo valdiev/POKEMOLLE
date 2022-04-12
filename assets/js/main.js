@@ -68,6 +68,7 @@ export default function main(pokemolleChosen) {
         </section>
     `;
 
+    // MENU ACTIONS
     let menuBtn = document.querySelector('.menu__actions');
     let menuAttack = document.querySelector('.menu__attacks');
     let attackBtn = document.querySelector("button.btn__attack");
@@ -75,11 +76,14 @@ export default function main(pokemolleChosen) {
     let attackElem = document.querySelector("button.btn__elem");
     let attackBase = document.querySelector("button.btn__base");
     let soin = document.querySelector("button.btn__soin");
-    
+
+    // POKEMOLLE STATS
     let pokeLifeBar = document.querySelector(".pokemolle .pokemolle__info-life progress");
     let pokeLifePoint = document.querySelector(".pokemolle .pokemolle__info-life p span.life");
-    
     let ennLifeBar = document.querySelector(".ennemolle .pokemolle__info-life progress");
+
+    // POKEMOLLE PHOTOS
+    let pokemollePhoto = document.querySelector(".pokemolle .pokemolle__photo");
     
     menuAttack.style.display = "none";
     
@@ -90,20 +94,33 @@ export default function main(pokemolleChosen) {
 
 
         attackBase.addEventListener('click', () => {
-            pokeAttack(ennemolle, pokemolle);
+            let sound = new Audio(`../assets/sound/charge.mp3`);
+            pokemollePhoto.classList.add("pokemolle__attack");
+            sound.play();
+
             setTimeout(() => {
-                if(ennemolles.length !== 0 && ennemolle.vie > 0) {
-                    ennAttack(pokemolle, ennemolle)
-                }
-            }, 600);
+                pokemollePhoto.classList.remove("pokemolle__attack");
+                pokeAttack(ennemolle, pokemolle);
+                setTimeout(() => {
+                    if(ennemolles.length !== 0 && ennemolle.vie > 0) {
+                        ennAttack(pokemolle, ennemolle)
+                    }
+                }, 600);
+            }, 800)
         })
         
         attackElem.addEventListener('click', () => {
-            pokeAttackElem(ennemolle, pokemolle);
+            let sound = new Audio(`../assets/sound/${pokemolle.sound}.mp3`);
+            pokemollePhoto.classList.add("pokemolle__attack");
+            sound.play();
+
             setTimeout(() => {
-                if(ennemolles.length !== 0 && ennemolle.vie > 0) {
-                    ennAttack(pokemolle, ennemolle)
-                }
+                pokeAttackElem(ennemolle, pokemolle);
+                setTimeout(() => {
+                    if(ennemolles.length !== 0 && ennemolle.vie > 0) {
+                        ennAttack(pokemolle, ennemolle)
+                    }
+                }, 600);
             }, 600);
         });
 
@@ -150,8 +167,8 @@ export default function main(pokemolleChosen) {
     }
 
     function pokeAttackElem(enn, poke) {
-
         window.alert(`${poke.nom} utilise ${poke.elementaire} !!`);
+
 
         if(poke.type == "Eau" && enn.type == "Feu" || poke.type == "Feu" && enn.type == "Plante" || poke.type == "Plante" && enn.type == "Eau" || poke.type == "Eau" && enn.type == "Roche") {
             poke.attaqueDegats = poke.cc;

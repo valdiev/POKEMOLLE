@@ -3,6 +3,8 @@ export default function ennAttack(poke, enn) {
     let pokeLifeBar = document.querySelector(".pokemolle .pokemolle__info-life progress");
     let pokeLifePoint = document.querySelector(".pokemolle .pokemolle__info-life p span.life");
 
+    let ennemollePhoto = document.querySelector(".ennemolle .ennemolle__photo");
+
     window.alert(`${enn.nom} ennemi attaque !!`);
 
     if(enn.type == "Eau" && poke.type == "Feu" || enn.type == "Feu" && poke.type == "Plante" || enn.type == "Plante" && poke.type == "Eau" || enn.type == "Eau" && poke.type == "Roche") {
@@ -19,20 +21,28 @@ export default function ennAttack(poke, enn) {
         window.alert(`Ce n'est pas efficace sur ${poke.nom} allié !`);
     }
 
-    poke.vie = poke.vie - enn.attaqueDegats;
-    pokeLifeBar.value = poke.vie;
-    pokeLifePoint.innerHTML = poke.vie;
+    let sound = new Audio(`../assets/sound/charge.mp3`);
+    ennemollePhoto.classList.add("pokemolle__attack");
+    sound.play();
 
-    if (pokeLifeBar.value === 0) {
-        map.innerHTML = `
-            <section class="gameOver">
-                <div class="gameOver__image">
-                    <img src="../assets/img/logo.png" alt="">
-                </div>
-                <h1>Tu as perdu...</h1>
-                <h2>Tu as perdu contre ${enn.nom} niveau ${enn.level}</h2>
-                <button onClick="window.location.reload();">Je veux ma revanche !</button>
-            </section>
-        `;
-    }
+    setTimeout(() => {
+        ennemollePhoto.classList.remove("pokemolle__attack");
+        poke.vie = poke.vie - enn.attaqueDegats;
+        pokeLifeBar.value = poke.vie;
+        pokeLifePoint.innerHTML = poke.vie;
+    
+        if (pokeLifeBar.value === 0) {
+            map.innerHTML = `
+                <section class="gameOver">
+                    <div class="gameOver__image">
+                        <img src="../assets/img/logo.png" alt="">
+                    </div>
+                    <h1>Tu as perdu...</h1>
+                    <h2>Tu as perdu contre ${enn.nom} niveau ${enn.level}</h2>
+                    <button onClick="window.location.reload();">Je veux ma revanche !</button>
+                </section>
+            `;
+        }
+    }, 800)
+
 }

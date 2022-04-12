@@ -65,6 +65,16 @@ section.battle .arena .pokemolle .pokemolle__photo {
     height: 15rem;
 }
 
+section.battle .arena .pokemolle .pokemolle__photo.pokemolle__attack {
+    animation: pokemolleAttack .5s ease;
+}
+
+@keyframes pokemolleAttack {
+    50% {
+        transform: translate(15rem, -5rem);
+    }
+}
+
 section.battle .arena .pokemolle .pokemolle__photo img {
     width: 100%;
     height: 100%;
@@ -154,6 +164,16 @@ section.battle .arena .ennemolle .ennemolle__photo {
     width: 15rem;
     height: 15rem;
     transition: opacity .4s ease, transform .6s ease;
+}
+
+section.battle .arena .ennemolle .ennemolle__photo.pokemolle__attack {
+    animation: ennemolleAttack .5s ease;
+}
+
+@keyframes ennemolleAttack {
+    50% {
+        transform: translate(-15rem, 5rem);
+    }
 }
 
 section.battle .arena .ennemolle .ennemolle__photo.ko {
