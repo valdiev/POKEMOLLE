@@ -57,59 +57,123 @@ export default function main(pokemolleChosen) {
             </div>
             <div class="menu__actions">
                 <button class="btn btn__attack">Attaque</button>
-                <button class="btn btn__soin ${pokemolle.vie == pokemolle.maxVie ? "disable" : ""}">Soin</button>
+                <button class="btn btn__soin">Soin</button>
+            </div>
+            <div class="menu__attacks">
+                <button class="btn btn__base">${pokemolle.attaque}</button>
+                <button class="btn btn__elem btn__${pokemolle.type}">${pokemolle.elementaire}</button>
+                <button class="btn btn__back">retour</button>
             </div>
         </div>
         </section>
     `;
 
-    let attack = document.querySelector("button.btn__attack");
+    let menuBtn = document.querySelector('.menu__actions');
+    let menuAttack = document.querySelector('.menu__attacks');
+    let attackBtn = document.querySelector("button.btn__attack");
+    let backBtn = document.querySelector("button.btn__back");
+    let attackElem = document.querySelector("button.btn__elem");
+    let attackBase = document.querySelector("button.btn__base");
     let soin = document.querySelector("button.btn__soin");
-
+    
     let pokeLifeBar = document.querySelector(".pokemolle .pokemolle__info-life progress");
     let pokeLifePoint = document.querySelector(".pokemolle .pokemolle__info-life p span.life");
-
+    
     let ennLifeBar = document.querySelector(".ennemolle .pokemolle__info-life progress");
+    
+    menuAttack.style.display = "none";
+    
+    
+    attackBtn.addEventListener('click', () => {
+        menuBtn.style.display = "none";
+        menuAttack.style.display = "flex";
 
 
-    attack.addEventListener('click', () => {
-        pokeAttack(ennemolle, pokemolle);
-        setTimeout(() => {
-            if(ennemolles.length !== 0 && ennemolle.vie > 0) {
-                ennAttack(pokemolle, ennemolle)
-            }
-        }, 600);
+        attackBase.addEventListener('click', () => {
+            pokeAttack(ennemolle, pokemolle);
+            setTimeout(() => {
+                if(ennemolles.length !== 0 && ennemolle.vie > 0) {
+                    ennAttack(pokemolle, ennemolle)
+                }
+            }, 600);
+        })
+        
+        attackElem.addEventListener('click', () => {
+            pokeAttackElem(ennemolle, pokemolle);
+            setTimeout(() => {
+                if(ennemolles.length !== 0 && ennemolle.vie > 0) {
+                    ennAttack(pokemolle, ennemolle)
+                }
+            }, 600);
+        });
+
+        backBtn.addEventListener('click', () => {
+            menuAttack.style.display = "none";
+            menuBtn.style.display = "grid";
+        });
     });
+    
 
     soin.addEventListener('click', () => {
         molleSoin(pokemolle);
     })
 
     function pokeAttack(enn, poke) {
+        window.alert(`${poke.nom} utilise ${poke.attaque} !!`);
 
-        window.alert(`${poke.nom} attaque !!`);
-
-        if(poke.type == "Eau" && enn.type == "Feu" || poke.type == "Feu" && enn.type == "Plante" || poke.type == "Plante" && enn.type == "Eau" || poke.type == "Eau" && enn.type == "Roche") {
-            poke.attaque = poke.cc;
-            window.alert(`Très efficace sur ${enn.nom} ennemi !`);
-        } else if(poke.type == "Normal" || enn.type == "Normal" || poke.type == enn.type) {
-            poke.attaque;
-        } else if(poke.type == "Electrique" && enn.type == "Roche") {
-            poke.attaque = 0;
-            window.alert(`Cela n'affecte pas ${enn.nom} ennemi...`)
-        }
-        else {
-            poke.attaque = poke.ec;
-            window.alert(`Ce n'est pas efficace sur ${enn.nom} ennemi !`);
-        }
-
-        enn.vie = enn.vie - poke.attaque;
+        enn.vie = enn.vie - poke.elementaireDegats;
         ennLifeBar.value = enn.vie;
 
         if (ennLifeBar.value == 0) {
             document.querySelector(".ennemolle__photo").classList.add("ko");
             ennemolles.splice(0, 1);
-            poke.attaque = poke.attaqueIni;
+
+            winExp(poke, enn);
+
+            if (ennemolles.length !== 0) {
+                setTimeout(() => {
+                    main(pokemolleChosen);
+                }, 400);
+            } else {
+                map.innerHTML = `
+                <section class="gameOver">
+                    <div class="gameOver__image">
+                        <img src="../assets/img/logo.png" alt="">
+                    </div>
+                    <h1>Tu as gagné !!</h1>
+                    <h2>Tu as passé les ${round} manches</h2>
+                    <button onClick="window.location.reload();">Je veux réessayer !</button>
+                </section>
+            `;
+            };
+        }
+    }
+
+    function pokeAttackElem(enn, poke) {
+
+        window.alert(`${poke.nom} utilise ${poke.elementaire} !!`);
+
+        if(poke.type == "Eau" && enn.type == "Feu" || poke.type == "Feu" && enn.type == "Plante" || poke.type == "Plante" && enn.type == "Eau" || poke.type == "Eau" && enn.type == "Roche") {
+            poke.attaqueDegats = poke.cc;
+            window.alert(`Très efficace sur ${enn.nom} ennemi !`);
+        } else if(poke.type == "Normal" || enn.type == "Normal" || poke.type == enn.type) {
+            poke.attaqueDegats;
+        } else if(poke.type == "Electrique" && enn.type == "Roche") {
+            poke.attaqueDegats = 0;
+            window.alert(`Cela n'affecte pas ${enn.nom} ennemi...`)
+        }
+        else {
+            poke.attaqueDegats = poke.ec;
+            window.alert(`Ce n'est pas efficace sur ${enn.nom} ennemi !`);
+        }
+
+        enn.vie = enn.vie - poke.attaqueDegats;
+        ennLifeBar.value = enn.vie;
+
+        if (ennLifeBar.value == 0) {
+            document.querySelector(".ennemolle__photo").classList.add("ko");
+            ennemolles.splice(0, 1);
+            poke.attaqueDegats = poke.attaqueDegatsIni;
 
             winExp(poke, enn);
 

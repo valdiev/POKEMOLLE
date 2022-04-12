@@ -22,7 +22,7 @@ export default function choosePoke() {
             const pokePicked = element.getAttribute('data-pokemolle');
             if (pokePicked === "Carapuce") {
                 main(carapuce);
-            } else if (pokePicked === "Bulbizar") {
+            } else if (pokePicked === "Bulbizarre") {
                 main(bulbizar);
             } else {
                 main(salameche);

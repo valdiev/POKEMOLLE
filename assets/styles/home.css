@@ -209,7 +209,14 @@ section.battle .menu .menu__actions {
     gap: .5rem;
 }
 
-section.battle .menu .menu__actions button.btn {
+section.battle .menu .menu__attacks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+}
+
+
+section.battle .menu *[class^="menu__"] button.btn {
     border: 4px solid #2E312E;
     border-radius: 3rem;
     font-size: 2rem;
@@ -218,12 +225,39 @@ section.battle .menu .menu__actions button.btn {
     color: #fff;
 }
 
+section.battle .menu .menu__attacks button.btn {
+    width: calc(50% - .5rem);
+    font-size: 1.4rem;
+    border: 2px solid #2E312E;
+}
+
 section.battle .menu .menu__actions button.btn__attack {
     background-color: #AF4045;
 }
 
 section.battle .menu .menu__actions button.btn__soin {
     background-color: #E0972B;
+}
+
+
+section.battle .menu .menu__attacks button.btn__base {
+    background-color: #777a77;
+}
+
+section.battle .menu .menu__attacks button.btn__Feu {
+    background-color: #bc2a10;
+}
+
+section.battle .menu .menu__attacks button.btn__Eau {
+    background-color: #004ce3;
+}
+
+section.battle .menu .menu__attacks button.btn__Plante {
+    background-color: #05691b;
+}
+
+section.battle .menu .menu__attacks button.btn__back {
+    background-color: #000;
 }
 
 /* LOOSE SCREEN */
