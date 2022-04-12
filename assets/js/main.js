@@ -10,7 +10,7 @@ let battleSound = new Audio('../assets/sound/battle.mp3');
 choosePoke();
 
 export default function main(pokemolleChosen) {
-    battleSound.volume = 0.2;
+    battleSound.volume = 0.1;
     battleSound.play();
     let pokemolle = pokemolleChosen;
     let ennemolle = ennemolles[0];
