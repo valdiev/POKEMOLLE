@@ -5,10 +5,13 @@ import ennAttack from "./PokeStats/EnnAttack.js";
 
 let map = document.querySelector('.screen');
 let round = 0;
+let battleSound = new Audio('../assets/sound/battle.mp3');
 
 choosePoke();
 
 export default function main(pokemolleChosen) {
+    battleSound.volume = 0.2;
+    battleSound.play();
     let pokemolle = pokemolleChosen;
     let ennemolle = ennemolles[0];
 
