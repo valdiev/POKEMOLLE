@@ -58,7 +58,7 @@ export default function main(pokemolleChosen) {
             </div>
             <div class="menu__actions">
                 <button class="btn btn__attack">Attaque</button>
-                <button class="btn btn__soin">Soin</button>
+                <button class="btn btn__soin ${pokemolle.vie == pokemolle.maxVie ? "disable" : ""}">Soin</button>
             </div>
         </div>
         </section>
@@ -73,11 +73,11 @@ export default function main(pokemolleChosen) {
     let ennLifeBar = document.querySelector(".ennemolle .pokemolle__info-life progress");
 
 
-
     attack.addEventListener('click', () => {
         pokeAttack(ennemolle, pokemolle);
         setTimeout(() => {
-            if(ennemolles.length !== 0) {
+            if(ennemolles.length !== 0 && ennemolle.vie > 0) {
+                console.log(ennemolle.vie);
                 ennAttack(pokemolle, ennemolle)
             }
         }, 600);
@@ -88,6 +88,23 @@ export default function main(pokemolleChosen) {
     })
 
     function pokeAttack(enn, poke) {
+
+        window.alert(`${poke.nom} attaque !!`);
+
+        if(poke.type == "Eau" && enn.type == "Feu" || poke.type == "Plante" && enn.type == "Eau" || poke.type == "Eau" && enn.type == "Roche") {
+            poke.attaque = Math.round(poke.attaque * 2);
+            window.alert(`Très efficace sur ${enn.nom} ennemi !`);
+        } else if(poke.type == "Normal" || enn.type == "Normal" || poke.type == enn.type) {
+            poke.attaque;
+        } else if(poke.type == "Electrique" && enn.type == "Roche") {
+            poke.attaque = 0;
+            window.alert(`Cela n'affecte pas ${enn.nom} ennemi...`)
+        }
+        else {
+            poke.attaque = Math.round(poke.attaque / 2);
+            window.alert(`Ce n'est pas efficace sur ${enn.nom} ennemi !`);
+        }
+
         enn.vie = enn.vie - poke.attaque;
         ennLifeBar.value = enn.vie;
 
@@ -118,13 +135,17 @@ export default function main(pokemolleChosen) {
 
     function molleSoin(molle) {
         
-        if(molle.vie + molle.soin > molle.maxVie) {
-            console.log("La potion ne fait plus d'effet !");
-        } else {
+        if(molle.vie == molle.maxVie) {
+            window.alert("Votre vie est à son déjà à son maximum !");
+        } else if(molle.vie <= molle.maxVie) {
             molle.vie += molle.soin; 
+
+            if(molle.maxVie < molle.vie) {
+                molle.vie = molle.maxVie;
+            }
             setTimeout(() => {
                 if(ennemolles.length !== 0) {
-                    ennAttack(pokemolle, ennemolle)
+                    ennAttack(pokemolle, ennemolle);
                 }
             }, 600);
         }
