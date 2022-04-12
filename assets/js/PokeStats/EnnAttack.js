@@ -32,6 +32,8 @@ export default function ennAttack(poke, enn) {
         pokeLifePoint.innerHTML = poke.vie;
     
         if (pokeLifeBar.value === 0) {
+            let loseScreen = new Audio('../assets/sound/fail.mp3');
+            loseScreen.play();
             map.innerHTML = `
                 <section class="gameOver">
                     <div class="gameOver__image">

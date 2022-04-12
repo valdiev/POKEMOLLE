@@ -10,7 +10,7 @@ let battleSound = new Audio('../assets/sound/battle.mp3');
 choosePoke();
 
 export default function main(pokemolleChosen) {
-    battleSound.volume = 0.1;
+    battleSound.volume = 0.05;
     battleSound.play();
     let pokemolle = pokemolleChosen;
     let ennemolle = ennemolles[0];
@@ -155,6 +155,9 @@ export default function main(pokemolleChosen) {
                     main(pokemolleChosen);
                 }, 400);
             } else {
+                battleSound.pause();
+                let winSound = new Audio('../assets/sound/win.mp3');
+                winSound.play();
                 map.innerHTML = `
                 <section class="gameOver">
                     <div class="gameOver__image">
@@ -202,6 +205,9 @@ export default function main(pokemolleChosen) {
                     main(pokemolleChosen);
                 }, 400);
             } else {
+                battleSound.pause();
+                let winSound = new Audio('../assets/sound/win.mp3');
+                winSound.play();
                 map.innerHTML = `
                 <section class="gameOver">
                     <div class="gameOver__image">
@@ -237,6 +243,5 @@ export default function main(pokemolleChosen) {
 
         pokeLifeBar.value = molle.vie;
         pokeLifePoint.innerHTML = molle.vie;
-
     }
 }
