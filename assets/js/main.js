@@ -221,6 +221,8 @@ export default function main(pokemolleChosen) {
         if(molle.vie == molle.maxVie) {
             window.alert("Votre vie est à son déjà à son maximum !");
         } else if(molle.vie <= molle.maxVie) {
+            let sound = new Audio("../assets/sound/heal.mp3");
+            sound.play();
             molle.vie += molle.soin; 
 
             if(molle.maxVie < molle.vie) {
