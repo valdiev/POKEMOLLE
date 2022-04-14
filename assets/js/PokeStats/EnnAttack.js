@@ -1,4 +1,4 @@
-export default function ennAttack(poke, enn) {
+export default function ennAttack(poke, enn, round) {
     let map = document.querySelector('.screen');
     let pokeLifeBar = document.querySelector(".pokemolle .pokemolle__info-life progress");
     let pokeLifePoint = document.querySelector(".pokemolle .pokemolle__info-life p span.life");
@@ -48,6 +48,7 @@ export default function ennAttack(poke, enn) {
                     </div>
                     <h1>Tu as perdu...</h1>
                     <h2>Tu as perdu contre ${enn.nom} niveau ${enn.level}</h2>
+                    <h2>Tu es arrivé à la manche n°${round}</h2>
                     <button onClick="window.location.reload();">Je veux ma revanche !</button>
                 </section>
             `;

@@ -112,7 +112,7 @@ export default function main(pokemolleChosen) {
             if(ennemolle.vie > 0){
                 setTimeout(() => {
                     if(ennemolles.length !== 0 && ennemolle.vie > 0) {
-                        ennAttack(pokemolle, ennemolle)
+                        ennAttack(pokemolle, ennemolle, round);
                     }
                 }, 600);
             }
@@ -129,7 +129,7 @@ export default function main(pokemolleChosen) {
                 if(ennemolle.vie > 0){
                     setTimeout(() => {
                         if(ennemolles.length !== 0 && ennemolle.vie > 0) {
-                            ennAttack(pokemolle, ennemolle)
+                            ennAttack(pokemolle, ennemolle, round);
                         }
                     }, 600);
                 }
@@ -152,7 +152,7 @@ export default function main(pokemolleChosen) {
             window.alert(`${pokemolle.nom} se protège pendant 3 tours !`);
             setTimeout(() => {
                 if(ennemolles.length !== 0 && ennemolle.vie > 0) {
-                    ennAttack(pokemolle, ennemolle)
+                    ennAttack(pokemolle, ennemolle, round);
                 }
             }, 600);
         })
@@ -174,7 +174,7 @@ export default function main(pokemolleChosen) {
                 window.alert("Votre vie est à son déjà à son maximum !");
             } else if(pokemolle.vie <= pokemolle.maxVie) {
                 pokemolle.nbPotion--;
-                nbPotion.innerHTML = "x" + pokemolle.nbPotion
+                nbPotion.innerHTML = "x" + pokemolle.nbPotion;
                 let sound = new Audio("../assets/sound/heal.mp3");
                 sound.play();
                 pokemolle.vie += pokemolle.soin; 
@@ -184,7 +184,7 @@ export default function main(pokemolleChosen) {
                 }
                 setTimeout(() => {
                     if(ennemolles.length !== 0) {
-                        ennAttack(pokemolle, ennemolle);
+                        ennAttack(pokemolle, ennemolle, round);
                     }
                 }, 600);
             }
