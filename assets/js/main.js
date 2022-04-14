@@ -2,6 +2,7 @@ import { ennemolles } from "./Ennemolle.js";
 import choosePoke from "./Home.js";
 import winExp from "./PokeStats/WinExp.js";
 import ennAttack from "./PokeStats/EnnAttack.js";
+import pokeAttack from "./PokeStats/PokeAttack.js";
 
 let map = document.querySelector('.screen');
 let round = 0;
@@ -103,7 +104,7 @@ export default function main(pokemolleChosen) {
 
             setTimeout(() => {
                 pokemollePhoto.classList.remove("pokemolle__attack");
-                pokeAttack(ennemolle, pokemolle);
+                pokeAttack(ennemolle, pokemolle, ennLifeBar, ennemolles, winExp, main, pokemolleChosen, map, round);
                 setTimeout(() => {
                     if(ennemolles.length !== 0 && ennemolle.vie > 0) {
                         ennAttack(pokemolle, ennemolle)
@@ -137,40 +138,6 @@ export default function main(pokemolleChosen) {
     soin.addEventListener('click', () => {
         molleSoin(pokemolle);
     })
-
-    function pokeAttack(enn, poke) {
-        window.alert(`${poke.nom} utilise ${poke.attaque} !!`);
-
-        enn.vie = enn.vie - poke.elementaireDegats;
-        ennLifeBar.value = enn.vie;
-
-        if (ennLifeBar.value == 0) {
-            document.querySelector(".ennemolle__photo").classList.add("ko");
-            ennemolles.splice(0, 1);
-
-            winExp(poke, enn);
-
-            if (ennemolles.length !== 0) {
-                setTimeout(() => {
-                    main(pokemolleChosen);
-                }, 400);
-            } else {
-                battleSound.pause();
-                let winSound = new Audio('../assets/sound/win.mp3');
-                winSound.play();
-                map.innerHTML = `
-                <section class="gameOver">
-                    <div class="gameOver__image">
-                        <img src="../assets/img/logo.png" alt="">
-                    </div>
-                    <h1>Tu as gagné !!</h1>
-                    <h2>Tu as passé les ${round} manches</h2>
-                    <button onClick="window.location.reload();">Je veux réessayer !</button>
-                </section>
-            `;
-            };
-        }
-    }
 
     function pokeAttackElem(enn, poke) {
         window.alert(`${poke.nom} utilise ${poke.elementaire} !!`);
