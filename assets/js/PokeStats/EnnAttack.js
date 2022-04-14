@@ -27,10 +27,17 @@ export default function ennAttack(poke, enn) {
 
     setTimeout(() => {
         ennemollePhoto.classList.remove("pokemolle__attack");
-        poke.vie = poke.vie - enn.attaqueDegats;
-        pokeLifeBar.value = poke.vie;
-        pokeLifePoint.innerHTML = poke.vie;
-    
+        if(poke.attaqueDefDuree > 0){
+            poke.vie = Math.round((poke.vie - (enn.attaqueDegats / 2 )) );
+            pokeLifeBar.value =poke.vie;
+            pokeLifePoint.innerHTML =poke.vie;
+            poke.attaqueDefDuree--;
+        }
+        else{
+            poke.vie = poke.vie - enn.attaqueDegats;
+            pokeLifeBar.value = poke.vie;
+            pokeLifePoint.innerHTML = poke.vie;
+        }
         if (pokeLifeBar.value === 0) {
             let loseScreen = new Audio('../assets/sound/fail.mp3');
             loseScreen.play();

@@ -10,6 +10,10 @@ html {
     font-size: 62.5%;
 }
 
+button.disabled {
+    opacity: .6;
+}
+
 .screen {
     background-color: rgb(42, 42, 42);
     min-height: 100vh;
@@ -257,6 +261,10 @@ section.battle .menu .menu__actions button.btn__attack {
 
 section.battle .menu .menu__actions button.btn__soin {
     background-color: #E0972B;
+}
+
+section.battle .menu .menu__attacks button.btn__def {
+    color: #000;
 }
 
 

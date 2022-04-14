@@ -11,6 +11,16 @@ class Ennemolle {
         this.level = level,
         this.exp = exp
     }
+
+    set lvlUp(value) {
+        this.level += 8;
+        this.attaqueDegats += 3;
+        this.cc = Math.round(this.attaqueDegats * 2),
+        this.ec = Math.round(this.attaqueDegats / 2),
+        this.maxVie += 10;
+        this.exp = value * 2;
+        this.vie += 10;
+    }
 }
 
 let salameche = new Ennemolle("salameche-front.webp", "Salameche", "Feu", 4, 10, 10, 5, 40);

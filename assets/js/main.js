@@ -3,6 +3,8 @@ import choosePoke from "./Home.js";
 import winExp from "./PokeStats/WinExp.js";
 import ennAttack from "./PokeStats/EnnAttack.js";
 import pokeAttack from "./PokeStats/PokeAttack.js";
+import pokeAttackElem from "./PokeStats/PokeAttackElem.js";
+import newEnn from "./PokeStats/newEnn.js";
 
 let map = document.querySelector('.screen');
 let round = 0;
@@ -61,11 +63,13 @@ export default function main(pokemolleChosen) {
             </div>
             <div class="menu__actions">
                 <button class="btn btn__attack">Attaque</button>
-                <button class="btn btn__soin">Soin</button>
+                <button class="btn btn__soin">Soin <span class="nbPotion" style="text-transform: initial">x${pokemolle.nbPotion}</span></button>
             </div>
             <div class="menu__attacks">
-                <button class="btn btn__base">${pokemolle.attaque}</button>
-                <button class="btn btn__elem btn__${pokemolle.type}">${pokemolle.elementaire}</button>
+                <button class="btn btn__base">${pokemolle.attaque} <span class="nbAttack">${pokemolle.nbAttaque}</span>/${pokemolle.nbAttaqueMax}</button>
+                <button class="btn btn__elem btn__${pokemolle.type}">${pokemolle.elementaire} <span class="nbAttack">${pokemolle.nbAttaqueSpe}</span>/${pokemolle.nbAttaqueSpeMax}</button>
+            
+                <button class="btn btn__def" style="${pokemolle.level > 6 ? "display: block" : "display: none"}">${pokemolle.attaqueDef} <span class="nbAttack">${pokemolle.nbAttaqueDef}</span>/${pokemolle.nbAttaqueDefMax}</button>
                 <button class="btn btn__back">retour</button>
             </div>
         </div>
@@ -79,7 +83,12 @@ export default function main(pokemolleChosen) {
     let backBtn = document.querySelector("button.btn__back");
     let attackElem = document.querySelector("button.btn__elem");
     let attackBase = document.querySelector("button.btn__base");
+    let attackDef = document.querySelector("button.btn__def");
     let soin = document.querySelector("button.btn__soin");
+    let nbAttack = document.querySelector("button.btn__base span");
+    let nbAttackSpe = document.querySelector("button.btn__elem span");
+    let nbPotion = document.querySelector("button.btn__soin span");
+
 
     // POKEMOLLE STATS
     let pokeLifeBar = document.querySelector(".pokemolle .pokemolle__info-life progress");
@@ -98,35 +107,55 @@ export default function main(pokemolleChosen) {
 
 
         attackBase.addEventListener('click', () => {
-            let sound = new Audio(`../assets/sound/charge.mp3`);
-            pokemollePhoto.classList.add("pokemolle__attack");
-            sound.play();
-
-            setTimeout(() => {
-                pokemollePhoto.classList.remove("pokemolle__attack");
-                pokeAttack(ennemolle, pokemolle, ennLifeBar, ennemolles, winExp, main, pokemolleChosen, map, round);
+            pokemollePhoto.classList.remove("pokemolle__attack");
+            pokeAttack(ennemolle, pokemolle, ennLifeBar, ennemolles, winExp, main, pokemolleChosen, map, round, pokemollePhoto, nbAttack, newEnn);
+            if(ennemolle.vie > 0){
                 setTimeout(() => {
                     if(ennemolles.length !== 0 && ennemolle.vie > 0) {
                         ennAttack(pokemolle, ennemolle)
                     }
                 }, 600);
-            }, 800)
+            }
+            else{
+                newEnn(ennemolle, ennemolles);
+            }
         })
+    
         
         attackElem.addEventListener('click', () => {
-            let sound = new Audio(`../assets/sound/${pokemolle.sound}.mp3`);
-            pokemollePhoto.classList.add("pokemolle__attack");
-            sound.play();
 
             setTimeout(() => {
-                pokeAttackElem(ennemolle, pokemolle);
-                setTimeout(() => {
-                    if(ennemolles.length !== 0 && ennemolle.vie > 0) {
-                        ennAttack(pokemolle, ennemolle)
-                    }
-                }, 600);
+                pokeAttackElem(ennemolle, pokemolle, pokemollePhoto, ennLifeBar, ennemolles, map, winExp, main, pokemolleChosen, round, nbAttackSpe, newEnn);
+                if(ennemolle.vie > 0){
+                    setTimeout(() => {
+                        if(ennemolles.length !== 0 && ennemolle.vie > 0) {
+                            ennAttack(pokemolle, ennemolle)
+                        }
+                    }, 600);
+                }
+                else{
+                    newEnn(ennemolle, ennemolles);
+                }
+                
             }, 600);
         });
+        
+        attackDef.addEventListener('click', () => {
+            pokemolle.attaqueDefDuree = 3;
+            pokemolle.nbAttaqueDef--;
+            if(pokemolle.nbAttaqueDef === 0) {
+                attackDef.disabled = true;
+                attackDef.classList.add("disabled");
+            }
+            attackDef.childNodes[1].innerHTML = pokemolle.nbAttaqueDef;
+            window.alert(`${pokemolle.nom} utilise ${pokemolle.attaqueDef}`);
+            window.alert(`${pokemolle.nom} se protège pendant 3 tours !`);
+            setTimeout(() => {
+                if(ennemolles.length !== 0 && ennemolle.vie > 0) {
+                    ennAttack(pokemolle, ennemolle)
+                }
+            }, 600);
+        })
 
         backBtn.addEventListener('click', () => {
             menuAttack.style.display = "none";
@@ -139,76 +168,33 @@ export default function main(pokemolleChosen) {
         molleSoin(pokemolle);
     })
 
-    function pokeAttackElem(enn, poke) {
-        window.alert(`${poke.nom} utilise ${poke.elementaire} !!`);
+    function molleSoin(pokemolle) {
+        if(pokemolle.nbPotion > 0){
+            if(pokemolle.vie == pokemolle.maxVie) {
+                window.alert("Votre vie est à son déjà à son maximum !");
+            } else if(pokemolle.vie <= pokemolle.maxVie) {
+                pokemolle.nbPotion--;
+                nbPotion.innerHTML = "x" + pokemolle.nbPotion
+                let sound = new Audio("../assets/sound/heal.mp3");
+                sound.play();
+                pokemolle.vie += pokemolle.soin; 
 
-
-        if(poke.type == "Eau" && enn.type == "Feu" || poke.type == "Feu" && enn.type == "Plante" || poke.type == "Plante" && enn.type == "Eau" || poke.type == "Eau" && enn.type == "Roche") {
-            poke.attaqueDegats = poke.cc;
-            window.alert(`Très efficace sur ${enn.nom} ennemi !`);
-        } else if(poke.type == "Normal" || enn.type == "Normal" || poke.type == enn.type) {
-            poke.attaqueDegats;
-        } else if(poke.type == "Electrique" && enn.type == "Roche") {
-            poke.attaqueDegats = 0;
-            window.alert(`Cela n'affecte pas ${enn.nom} ennemi...`)
-        }
-        else {
-            poke.attaqueDegats = poke.ec;
-            window.alert(`Ce n'est pas efficace sur ${enn.nom} ennemi !`);
-        }
-
-        enn.vie = enn.vie - poke.attaqueDegats;
-        ennLifeBar.value = enn.vie;
-
-        if (ennLifeBar.value == 0) {
-            document.querySelector(".ennemolle__photo").classList.add("ko");
-            ennemolles.splice(0, 1);
-            poke.attaqueDegats = poke.attaqueDegatsIni;
-
-            winExp(poke, enn);
-
-            if (ennemolles.length !== 0) {
-                setTimeout(() => {
-                    main(pokemolleChosen);
-                }, 400);
-            } else {
-                battleSound.pause();
-                let winSound = new Audio('../assets/sound/win.mp3');
-                winSound.play();
-                map.innerHTML = `
-                <section class="gameOver">
-                    <div class="gameOver__image">
-                        <img src="../assets/img/logo.png" alt="">
-                    </div>
-                    <h1>Tu as gagné !!</h1>
-                    <h2>Tu as passé les ${round} manches</h2>
-                    <button onClick="window.location.reload();">Je veux réessayer !</button>
-                </section>
-            `;
-            };
-        }
-    }
-
-    function molleSoin(molle) {
-        
-        if(molle.vie == molle.maxVie) {
-            window.alert("Votre vie est à son déjà à son maximum !");
-        } else if(molle.vie <= molle.maxVie) {
-            let sound = new Audio("../assets/sound/heal.mp3");
-            sound.play();
-            molle.vie += molle.soin; 
-
-            if(molle.maxVie < molle.vie) {
-                molle.vie = molle.maxVie;
-            }
-            setTimeout(() => {
-                if(ennemolles.length !== 0) {
-                    ennAttack(pokemolle, ennemolle);
+                if(pokemolle.maxVie < pokemolle.vie) {
+                    pokemolle.vie = pokemolle.maxVie;
                 }
-            }, 600);
-        }
+                setTimeout(() => {
+                    if(ennemolles.length !== 0) {
+                        ennAttack(pokemolle, ennemolle);
+                    }
+                }, 600);
+            }
 
-        pokeLifeBar.value = molle.vie;
-        pokeLifePoint.innerHTML = molle.vie;
+            pokeLifeBar.value = pokemolle.vie;
+            pokeLifePoint.innerHTML = pokemolle.vie;
+        }
+        else{
+        
+            window.alert(`Plus de potion de vie !`);
+        }
     }
 }
